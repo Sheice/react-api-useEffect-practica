@@ -1,23 +1,41 @@
-import logo from './logo.svg';
+import React,{useEffect, useState} from 'react';
 import './App.css';
 
 function App() {
+
+  const [person, setPerson ] = useState([]);
+
+  const Api = async () => {
+    const data = await fetch('https://jsonplaceholder.typicode.com/users');
+    const users = await data.json();
+    setPerson(users);
+    
+  }
+
+
+  useEffect(() => {
+      Api()
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Personas - API</h1>
+      <table>
+        <tr className="tr">
+          <th>Nombre</th>
+          <th>Usuario</th>
+          <th>Email</th>
+          <th>Web</th>
+        </tr>
+        {person.map((user) =>(
+          <tr className="tr" key={user.id}>
+            <td>{user.name}</td>
+            <td>{user.username}</td>
+            <td>{user.email}</td>
+            <td>{user.website}</td>
+          </tr>
+        ))}
+      </table>
     </div>
   );
 }
